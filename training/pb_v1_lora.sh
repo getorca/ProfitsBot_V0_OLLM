@@ -1,0 +1,20 @@
+OMP_NUM_THREADS=4 WORLD_SIZE=5 torchrun --nproc_per_node=5 --master_port=1234 train_lora.py \
+    --output_dir '/data/tunned_2' \
+    --base_model '/models/my_llama_hf/llama_hf_7B' \
+    --lora_r 32 \
+    --lora_alpha 64 \
+    --lora_dropout 0.05 \
+    --lora_target_modules: '["q_proj", "v_proj"]' \
+    --model_max_length 1024 \
+    --learning_rate 2.5e4 \
+    --per_device_train_batch_size 8 \
+    --gradient_accumulation_steps 4 \
+    --warmup_steps 300 \
+    --num_train_epochs 3 \
+    --lr_scheduler_type 'polynomial' \
+    --logging_steps 100 \
+    --optim 'adamw_bnb_8bit' \
+    --eval_steps 500 \
+    --save_steps 500 \
+    --save_total_limit 3 \
+    --report_to 'wandb'
